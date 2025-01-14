@@ -7,6 +7,7 @@ import mediapipe as mp
 import numpy as np
 import os
 import sys
+import math
 
 def resource_path(relative_path):
     try:
@@ -27,14 +28,12 @@ def upload_image():
     file_path = filedialog.askopenfilename(
         filetypes=[("Image Files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tiff;*.jfif;*.svg;*.ppm;*.pgm;*.heic;*.bpg;*.ico;*.jpe;*.jp2;*.jps;*.pbm;*.pcx;*.pic;*.pict;*.pnm;*.psd;*.rgb;*.rgba;*.tga;*.tif")]
     )
+    # file_path = resource_path("public\\test.jpg")
     if file_path:
         try:
             # Load DNN Face Detection model
-            net = cv2.dnn.readNetFromCaffe(resource_path("models\\deploy.prototxt"), 
-                               resource_path("models\\res10_300x300_ssd_iter_140000.caffemodel"))
+            net = cv2.dnn.readNetFromCaffe(resource_path("models\\deploy.prototxt"), resource_path("models\\res10_300x300_ssd_iter_140000.caffemodel"))
 
-            # Initialize Mediapipe Face Mesh
-            mp_face_mesh = mp.solutions.face_mesh
             # Example for setting image dimensions
             face_mesh = mp.solutions.face_mesh.FaceMesh(
                 max_num_faces=1,
@@ -43,16 +42,11 @@ def upload_image():
                 min_tracking_confidence=0.5,
             )
 
-
-            # Initialize MediaPipe drawing utils
-            mp_drawing = mp.solutions.drawing_utils
-
             # Load the image
             img = cv2.imread(file_path)
             height = 400
             width = int((img.shape[0] * height) / img.shape[1])
             img = cv2.resize(img, (height, width))
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
             # DNN Face Detection
             blob = cv2.dnn.blobFromImage(cv2.resize(img, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
@@ -63,7 +57,6 @@ def upload_image():
             img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             results = face_mesh.process(img_rgb)
 
-            # while True:
             img_copy = img.copy()
 
             # Draw face detection (DNN)
@@ -73,114 +66,133 @@ def upload_image():
                     # Get face bounding box and scale to original image size
                     box = detections[0, 0, i, 3:7] * np.array([img.shape[1], img.shape[0], img.shape[1], img.shape[0]])  # Scale box to resized image
                     s1, s2, s3, s4 = box.astype(int)
-                    (x, y, w, h) = box.astype(int)
 
             # If face landmarks are found, draw them on the image
             if results.multi_face_landmarks:
                 for face_landmarks in results.multi_face_landmarks:
 
-                    # Extract extreme points for facial features
-                    leftmost_point = min(face_landmarks.landmark, key=lambda landmark: landmark.x)
-                    rightmost_point = max(face_landmarks.landmark, key=lambda landmark: landmark.x)
-                    bottommost_point = max(face_landmarks.landmark, key=lambda landmark: landmark.y)
-
                     ih, iw, _ = img_copy.shape
-
-                    # Draw Leftmost Point (Separate Landmark)
-                    p10, y = int(leftmost_point.x * iw), int(leftmost_point.y * ih)
-                    cv2.circle(img_copy, (p10, y), 2, (255, 0, 0), -1)
-
-                    # Draw Rightmost Point (Separate Landmark)
-                    p11, y = int(rightmost_point.x * iw), int(rightmost_point.y * ih)
-                    cv2.circle(img_copy, (p11, y), 2, (255, 0, 0), -1)
+                                    
+                    # Top Of Head (1)
+                    landmark = face_landmarks.landmark[10]     
+                    px1, py1 = int(landmark.x * iw), (s2 - (int(landmark.y * ih) - s2))
+                    cv2.circle(img_copy, (px1, py1), 2, (255, 0, 0), -1)
 
                     # Chin (2)
-                    x, p2 = int(bottommost_point.x * iw), int(bottommost_point.y * ih)
-                    cv2.circle(img_copy, (x, p2), 2, (255, 0, 0), -1)
-                
-                    # Bottom of the nose (4)
-                    landmark = face_landmarks.landmark[19]
-                    x, p4 = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (x, p4), 2, (255, 0, 0), -1)
-
-                    # Left Of Outside Of Eye (8)
-                    landmark = face_landmarks.landmark[33]
-                    p8, y = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (p8, y), 2, (255, 0, 0), -1)
-                    
-                    # Right Of Outside Of Eye (9)
-                    landmark = face_landmarks.landmark[263]
-                    p9, y = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (p9, y), 2, (255, 0, 0), -1)
-                                
-                    # Top Of The Lip (13)
-                    landmark = face_landmarks.landmark[0]
-                    x, p13 = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (x, p13), 2, (255, 0, 0), -1)
-
-                    # Bottom Of The Lip (14)
-                    landmark = face_landmarks.landmark[17]
-                    x, p14 = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (x, p14), 2, (255, 0, 0), -1)
-                    
-                    # Center Of The Lip (5)
-                    landmark = face_landmarks.landmark[14]
-                    x, p5 = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (x, p5), 2, (255, 0, 0), -1)
+                    landmark = face_landmarks.landmark[152]
+                    px2, py2 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px2, py2), 2, (255, 0, 0), -1)
 
                     # Pupil Of Left Eye (3)
                     landmark = face_landmarks.landmark[468]
-                    x, p3 = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (x, p3), 2, (255, 0, 0), -1)
+                    px31, py31 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px31, py31), 2, (255, 0, 0), -1)
+
+                    # Pupil Of Right Eye (4)
+                    landmark = face_landmarks.landmark[473]
+                    px32, py32 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px32, py32), 2, (255, 0, 0), -1)
+
+                    # Center Of the pupils
+                    top, bottom = ((px31, py31), (px32, py32)) if py31 > py32 else ((px32, py32), (px31, py31))
+                    l3132 = math.sqrt((bottom[0]-top[0])**2 + (bottom[1]-top[1])**2)
+                    pc_x, pc_y = (top[0] + bottom[0]) / 2, (top[1] + bottom[1]) / 2
+
+                    # Bottom of the nose (4)
+                    landmark = face_landmarks.landmark[19]
+                    px4, py4 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px4, py4), 2, (255, 0, 0), -1)
+                    
+                    # Center Of The Lip (5)
+                    landmark = face_landmarks.landmark[14]
+                    px5, py5 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px5, py5), 2, (255, 0, 0), -1)
 
                     # Left Of Bottom Of Nose (6)
                     landmark = face_landmarks.landmark[48]
-                    p6, y = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (p6, y), 2, (255, 0, 0), -1)
+                    px6, py6 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px6, py6), 2, (255, 0, 0), -1)
                     
                     # Right Of Bottom Of Nose (7)
                     landmark = face_landmarks.landmark[278]
-                    p7, y = int(landmark.x * iw), int(landmark.y * ih)
-                    cv2.circle(img_copy, (p7, y), 2, (255, 0, 0), -1)
-                                                    
-                    # Top Of Head (1)
-                    landmark = face_landmarks.landmark[10]     
-                    x, p1 = int(landmark.x * iw), (s2 - (int(landmark.y * ih) - s2))
-                    cv2.circle(img_copy, (x, p1), 2, (255, 0, 0), -1)
+                    px7, py7 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px7, py7), 2, (255, 0, 0), -1)
+                    
+                    # Left Of Outside Of Eye (8)
+                    landmark = face_landmarks.landmark[33]
+                    px8, py8 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px8, py8), 2, (255, 0, 0), -1)
+                    
+                    # Right Of Outside Of Eye (9)
+                    landmark = face_landmarks.landmark[263]
+                    px9, py9 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px9, py9), 2, (255, 0, 0), -1)
 
+                    # Left Cheekbone (10)
+                    landmark = face_landmarks.landmark[234]
+                    px10, py10 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px10, py10), 2, (255, 0, 0), -1)
+
+                    # Right Cheekbone (11)
+                    landmark = face_landmarks.landmark[447]
+                    px11, py11 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px11, py11), 2, (255, 0, 0), -1)
+                    
                     # Hairline (12)
-                    x , p12 = int(s1+(s3-s1)/2), s2
-                    cv2.circle(img_copy, (x, p12), 2, (255, 0, 0), -1)
+                    px12 , py12 = int(s1+(s3-s1)/2), s2
+                    cv2.circle(img_copy, (px12 , py12), 2, (255, 0, 0), -1)
 
-            cv2.destroyAllWindows()            
+                    # Top Of The Lip (13)
+                    landmark = face_landmarks.landmark[0]
+                    px13, py13 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px13, py13), 2, (255, 0, 0), -1)
 
-            # Calculating the ratios
+                    # Bottom Of The Lip (14)
+                    landmark = face_landmarks.landmark[17]
+                    px14, py14 = int(landmark.x * iw), int(landmark.y * ih)
+                    cv2.circle(img_copy, (px14, py14), 2, (255, 0, 0), -1)
+
+            # Golden Ratio Calculation
             ratio = []
             deviation = []
-            normal_score = []
-            avg_score = 0
+            normal = []
+            score = 0
+            
+            top, bottom = ((px10, py10), (px11, py11)) if py10 > py11 else ((px11, py11), (px10, py10))
+            l1011 = round(math.sqrt((bottom[0] - top[0])**2 + (bottom[1] - top[1])**2), 3)
 
-            # Append each ratio while checking for zero denominators
-            ratio.append(safe_divide((p3 - p1), (p5 - p3)))
-            ratio.append(safe_divide((p2 - p1), (p2 - p4)))
-            ratio.append(safe_divide((p3 - p12), (p2 - p4)))
-            ratio.append(safe_divide((p11 - p10), (p7 - p6)))
-            ratio.append(safe_divide((p9 - p8), (p14 - p13)))
+            top, bottom = ((px6, py6), (px7, py7)) if py6 > py7 else ((px7, py7), (px6, py6))
+            l67 = round(math.sqrt((bottom[0] - top[0])**2 + (bottom[1] - top[1])**2), 3)
 
-            # Print the ratios
+            l1pc = round(math.sqrt((pc_x - px1)**2 + (pc_y - py1)**2), 3)
+
+            lpc5 = round(math.sqrt((px5 - pc_x)**2 + (py5 - pc_y)**2), 3)
+
+            l12 = round(math.sqrt((px2 - px1)**2 + (py2 - py1)**2), 3)
+
+            l42 = round(math.sqrt((px2 - px4)**2 + (py2 - py4)**2), 3)
+
+            l12pc = round(math.sqrt((pc_x - px12)**2 + (pc_y - py12)**2), 3)
+
+            top, bottom = ((px8, py8), (px9, py9)) if py8 > py9 else ((px9, py9), (px8, py8))
+            l89 = round(math.sqrt((bottom[0] - top[0])**2 + (bottom[1] - top[1])**2), 3)
+
+            l1314 = round(math.sqrt((px14 - px13)**2 + (py14 - py13)**2), 3)
+
+            ratio.append(round(abs((l1pc)/(lpc5)), 3))
+            ratio.append(round(abs((l12)/(l42)), 3))
+            ratio.append(round(abs((l12pc)/(l42)), 3))
+            ratio.append(round(abs((l1011)/(l67)), 3))
+            ratio.append(round(abs((l89)/(l1314)), 3))
+
             for i in range(5):
-                if(ratio[i]<0):
-                    ratio[i]=-ratio[i]
-                deviation.append(ratio[i]-1.618)
-                # print("Ratio", i + 1, ":", ratio[i])
-                if(deviation[i]<0):
-                    deviation[i]=-deviation[i]
-                normal_score.append(1-(deviation[i]/5.0))
-                # print("Deviation:", deviation[i])
-                avg_score = avg_score+normal_score[i]
-                # print("Normal Score:", normal_score[i])
-
-            avg_score = (avg_score/5)*10
+                deviation.append(round(abs(round(ratio[i], 3) - 1.618), 3))
+                
+            for i in range(5):
+                normal.append(abs(round(1-(deviation[i]/(sum(deviation) / 5)), 3)))
+                score = score+normal[i]  
+                
+            tot_score = (score/5)*10
 
             # Open and display the image in the GUI
             # Convert img_copy to RGB (from BGR used by OpenCV)
@@ -200,7 +212,7 @@ def upload_image():
             image_label.image = img_tk
 
             # display the score
-            score_label.config(text=f"Image Score: {round(avg_score, 1)}")
+            score_label.config(text=f"Image Score: {tot_score:.1f}")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to process the image.\n{e}")
 
@@ -235,5 +247,4 @@ upload_button.pack(pady=10)
 image_label = tk.Label(app, bg="#2a2a2a")  # Background matches the window's background
 image_label.pack(pady=10)
 
-# Run the application
 app.mainloop()
