@@ -14,21 +14,13 @@ def resource_path(relative_path):
         base_path = sys._MEIPASS2
     except Exception:
         base_path = os.path.abspath(".")
-
     return os.path.join(base_path, relative_path)
-
-def safe_divide(numerator, denominator):
-    if denominator != 0:
-        return numerator / denominator
-    else:
-        return 0  # or float('inf'), or any value you prefer for division by zero
 
 def upload_image():
     # Open a file dialog for the user to select an image
     file_path = filedialog.askopenfilename(
         filetypes=[("Image Files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tiff;*.jfif;*.svg;*.ppm;*.pgm;*.heic;*.bpg;*.ico;*.jpe;*.jp2;*.jps;*.pbm;*.pcx;*.pic;*.pict;*.pnm;*.psd;*.rgb;*.rgba;*.tga;*.tif")]
     )
-    # file_path = resource_path("public\\test.jpg")
     if file_path:
         try:
             # Load DNN Face Detection model
@@ -160,23 +152,15 @@ def upload_image():
             
             top, bottom = ((px10, py10), (px11, py11)) if py10 > py11 else ((px11, py11), (px10, py10))
             l1011 = round(math.sqrt((bottom[0] - top[0])**2 + (bottom[1] - top[1])**2), 3)
-
             top, bottom = ((px6, py6), (px7, py7)) if py6 > py7 else ((px7, py7), (px6, py6))
             l67 = round(math.sqrt((bottom[0] - top[0])**2 + (bottom[1] - top[1])**2), 3)
-
             l1pc = round(math.sqrt((pc_x - px1)**2 + (pc_y - py1)**2), 3)
-
             lpc5 = round(math.sqrt((px5 - pc_x)**2 + (py5 - pc_y)**2), 3)
-
             l12 = round(math.sqrt((px2 - px1)**2 + (py2 - py1)**2), 3)
-
             l42 = round(math.sqrt((px2 - px4)**2 + (py2 - py4)**2), 3)
-
             l12pc = round(math.sqrt((pc_x - px12)**2 + (pc_y - py12)**2), 3)
-
             top, bottom = ((px8, py8), (px9, py9)) if py8 > py9 else ((px9, py9), (px8, py8))
             l89 = round(math.sqrt((bottom[0] - top[0])**2 + (bottom[1] - top[1])**2), 3)
-
             l1314 = round(math.sqrt((px14 - px13)**2 + (py14 - py13)**2), 3)
 
             ratio.append(round(abs((l1pc)/(lpc5)), 3))
@@ -195,16 +179,9 @@ def upload_image():
             tot_score = (score/5)*10
 
             # Open and display the image in the GUI
-            # Convert img_copy to RGB (from BGR used by OpenCV)
             img_copy_rgb = cv2.cvtColor(img_copy, cv2.COLOR_BGR2RGB)
-
-            # Convert to a PIL image
             img_pil = Image.fromarray(img_copy_rgb)
-
-            # Resize for display
             img_pil.thumbnail((height, width))
-
-            # Convert to ImageTk for Tkinter
             img_tk = ImageTk.PhotoImage(img_pil)
 
             # Update the image label
@@ -221,8 +198,6 @@ app = tk.Tk()
 app.title("Image Scorer")
 app.iconbitmap(resource_path('public\\phiora_logo.ico'))
 app.geometry('500x600')  # Set the window size to the screen resolution
-
-# Set the background color of the window
 app.config(bg="#2a2a2a")  # Dark background color
 
 # Create a label at the top to display the score (initially empty)
