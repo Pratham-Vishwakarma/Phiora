@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 ## General Usage
 
-1. You can download the [Phiora_Setup](https://github.com/Pratham-Vishwakarma/Phiora/releases/download/v1.5.0/Phiora_Setup_v1.5.0.exe) from releases.
+1. You can download the [Phiora_Setup](https://github.com/Pratham-Vishwakarma/Phiora/releases/download/v1.5.0/Phiora_Setup_v2.0.0.exe) from releases.
 2. Follow the setup instruction.
 3. launch the Phiora application.
 4.  Click the "Upload Image" button to select an image file.
