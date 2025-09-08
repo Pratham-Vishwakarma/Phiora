@@ -6,11 +6,12 @@ Phiora is a desktop application that allows users to upload an image and analyze
 
 To use Phiora, you will need to have the following dependencies installed:
 
-- Python 3.x
+- Python 3.11 or lower
 - OpenCV
 - Mediapipe
 - Pillow (PIL)
 - Tkinter
+- Pandas
 
 You can install these dependencies using pip:
 

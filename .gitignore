@@ -1,4 +1,6 @@
 .venv/
 build/
 dist/
-Phiora.spec
+Output/
+main.spec
+phiorav2.iss
