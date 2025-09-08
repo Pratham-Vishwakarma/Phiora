@@ -51,14 +51,14 @@ Phiora is a **Python-based facial analysis app** that evaluates facial aesthetic
 
 ## Features
 
-* 📸 **Image Upload & Facial Detection** – Upload images to automatically detect faces and extract key landmarks.
-* 📐 **Golden Ratio Scoring** – Computes proportional ratios and delivers a ***beauty score (1–10)*** based on mathematical foundations of symmetry.
-* 🖼 **Landmark Visualization** – Displays processed images with ***highlighted facial landmarks*** for clarity.
-* 🧑‍🤝‍🧑 **Face Shape Analysis** – Identifies overall face shape to provide deeper insights into facial structure.
-* 💇 **Personalized Enhancements** – Suggests ***hairstyle recommendations*** tailored to individual facial contours.
-* 💻 **Intuitive Desktop Interface** – Lightweight and user-friendly GUI built with ***Tkinter***.
-* ⚡ **Quick Setup** – Simple installation with minimal dependencies for seamless use.
-* 🎯 **Multi-Domain Applications** – Applicable in ***cosmetic science, AR/VR, digital fashion, educational tools, and computational aesthetics research***.
+* 📸 <u>**Image Upload & Facial Detection**</u> – Upload images to automatically detect faces and extract key landmarks.
+* 📐 <u>**Golden Ratio Scoring**</u> – Computes proportional ratios and delivers a ***beauty score (1–10)*** based on mathematical foundations of symmetry.
+* 🖼 <u>**Landmark Visualization**</u> – Displays processed images with ***highlighted facial landmarks*** for clarity.
+* 🧑‍🤝‍🧑 <u>**Face Shape Analysis**</u> – Identifies overall face shape to provide deeper insights into facial structure.
+* 💇 <u>**Personalized Enhancements**</u> – Suggests ***hairstyle recommendations*** tailored to individual facial contours.
+* 💻 <u>**Intuitive Desktop Interface**</u> – Lightweight and user-friendly GUI built with ***Tkinter***.
+* ⚡ <u>**Quick Setup**</u> – Simple installation with minimal dependencies for seamless use.
+* 🎯 <u>**Multi-Domain Applications**</u> – Applicable in ***cosmetic science, AR/VR, digital fashion, educational tools, and computational aesthetics research***.
 
 ## Installation / Setup
 
@@ -79,24 +79,16 @@ Phiora is a **Python-based facial analysis app** that evaluates facial aesthetic
 git clone https://github.com/Pratham-Vishwakarma/Phiora.git
 cd Phiora
 
------------------------------------------------------------
-
 # Create a .venv
 python -m venv .venv
-
------------------------------------------------------------
 
 # Activate the .venv
 ## For macOS/Linux
 source .venv/bin/activate
-
 ## For Windows (Command Prompt)
 .venv\Scripts\activate
-
 ## For Windows (PowerShell)
 .venv\Scripts\Activate.ps1
-
------------------------------------------------------------
 
 # Install dependencies
 pip install -r requirements.txt
