@@ -7,7 +7,6 @@
 Phiora is a **Python-based facial analysis app** that evaluates facial aesthetics using the **golden ratio**. It detects key facial landmarks with **OpenCV** and neural networks, computes proportional ratios, and provides a **beauty score from 1 to 10**. Beyond scoring, Phiora offers insights like **face shape analysis** and **personalized hairstyle suggestions**, making it useful for **cosmetic science, AR/VR, digital fashion, and educational tools**.
 
 ---
-  
 
 <div align="center">
 
@@ -23,6 +22,10 @@ Phiora is a **Python-based facial analysis app** that evaluates facial aesthetic
 ![OpenCV](https://img.shields.io/badge/-OpenCV-5C3EE8?logo=opencv&logoColor=white&style=flat)
 ![Mediapipe](https://img.shields.io/badge/-Mediapipe-FF6F61?style=flat)
 ![Tkinter](https://img.shields.io/badge/-Tkinter-blue?style=flat)
+![Pillow](https://img.shields.io/badge/Pillow-3776AB?logo=python&logoColor=white&style=flat)
+![Pandas](https://img.shields.io/badge/-Pandas-%23150458?logo=pandas)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-005C55?logo=plotly&logoColor=white&style=flat)
+
 
 </div>
 
@@ -46,17 +49,16 @@ Phiora is a **Python-based facial analysis app** that evaluates facial aesthetic
 - [License](#license)
 - [Support / Contact](#support--contact)
 
----
-
 ## Features
 
-✅ **Upload an image** and detect facial landmarks automatically
-✅ **Calculate golden ratio-based facial scores**
-✅ **Visualize processed images** with highlighted landmarks
-✅ **User-friendly GUI** with Tkinter
-✅ **Easy installation** and setup
-
----
+* 📸 **Image Upload & Facial Detection** – Upload images to automatically detect faces and extract key landmarks.
+* 📐 **Golden Ratio Scoring** – Computes proportional ratios and delivers a ***beauty score (1–10)*** based on mathematical foundations of symmetry.
+* 🖼 **Landmark Visualization** – Displays processed images with ***highlighted facial landmarks*** for clarity.
+* 🧑‍🤝‍🧑 **Face Shape Analysis** – Identifies overall face shape to provide deeper insights into facial structure.
+* 💇 **Personalized Enhancements** – Suggests ***hairstyle recommendations*** tailored to individual facial contours.
+* 💻 **Intuitive Desktop Interface** – Lightweight and user-friendly GUI built with ***Tkinter***.
+* ⚡ **Quick Setup** – Simple installation with minimal dependencies for seamless use.
+* 🎯 **Multi-Domain Applications** – Applicable in ***cosmetic science, AR/VR, digital fashion, educational tools, and computational aesthetics research***.
 
 ## Installation / Setup
 
@@ -68,19 +70,37 @@ Phiora is a **Python-based facial analysis app** that evaluates facial aesthetic
 * Pillow (PIL)
 * Tkinter
 * Pandas
+* Matplotlib
 
-**Steps:**
+**Steps for Installation:**
 
 ```bash
 # Clone repository
 git clone https://github.com/Pratham-Vishwakarma/Phiora.git
 cd Phiora
 
+-----------------------------------------------------------
+
+# Create a .venv
+python -m venv .venv
+
+-----------------------------------------------------------
+
+# Activate the .venv
+## For macOS/Linux
+source .venv/bin/activate
+
+## For Windows (Command Prompt)
+.venv\Scripts\activate
+
+## For Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+
+-----------------------------------------------------------
+
 # Install dependencies
 pip install -r requirements.txt
 ```
-
----
 
 ## Usage
 
@@ -90,7 +110,7 @@ pip install -r requirements.txt
 2. Follow installation instructions.
 3. Launch the Phiora application.
 4. Click **Upload Image** and select your image.
-5. The app detects landmarks, calculates the golden ratio-based score, and displays results.
+5. The app detects landmarks, scores facial symmetry, analyzes face shape, suggests hairstyles, and shows results.
 
 ### Developer
 
@@ -99,39 +119,31 @@ python main.py
 ```
 
 * Click **Upload Image** and select an image.
-* Facial landmarks and beauty score are calculated and displayed in-app.
-
----
+* Facial landmarks, symmetry score, face shape, and hairstyle suggestions are displayed in-app.
 
 ## Screenshots / Demo
 
 <div align="center">
-<img src="https://via.placeholder.com/400x250" alt="Phiora Screenshot 1" />  
-<img src="https://via.placeholder.com/400x250" alt="Phiora Screenshot 2" />
+<img src="./assets/phiora_without_image.png" alt="Phiora Screenshot 1" width="400" height="250"/>  
+<img src="./assets/phiora_with_image.png" alt="Phiora Screenshot 2" width="400" height="250"/>
 </div>  
-
-*(Replace with actual screenshots or GIFs of your app)*
-
----
 
 ## Project Structure
 
 ```
-/src        -> Source code
-/docs       -> Documentation
-/tests      -> Unit tests
-/main.py    -> Entry point of the application
+/src              -> Source code
+/src/main.py      -> Entry point of the application
+/assets           -> Assets of the projects.
+/images           -> Images used for testing the models effeciency
+/models           -> Machine learning models used for image landmarking and ratio analysis.
+/public           -> Public images used in the app
 /requirements.txt -> Dependencies
 ```
-
----
 
 ## Configuration
 
 * No mandatory config files required.
 * Optional: Add custom parameters in `config.py` for advanced usage.
-
----
 
 ## Contributing Guidelines
 
@@ -141,16 +153,12 @@ python main.py
 4. Push to the branch (`git push origin feature-name`).
 5. Open a Pull Request.
 
----
-
 ## Roadmap
 
-* [ ] Add **real-time webcam scoring**
-* [ ] Support **batch image processing**
-* [ ] Improve GUI with **interactive visualizations**
-* [ ] Add **additional facial scoring metrics**
-
----
+* [ ] Add ***real-time webcam scoring***
+* [ ] Support ***batch image processing***
+* [ ] Improve GUI with ***interactive visualizations***
+* [ ] Add ***additional facial scoring metrics***
 
 ## Built With / Tech Stack
 
@@ -162,40 +170,21 @@ python main.py
 | Pillow (PIL) | Image handling            |
 | Tkinter      | GUI                       |
 | Pandas       | Data processing           |
-
----
+| Matplotlib   | Data visualization        |
 
 ## Authors / Acknowledgements
 
 * **Pratham Vishwakarma** – Developer & Maintainer
 * Thanks to **OpenCV** and **Mediapipe** communities for their contributions.
 
----
-
 ## License
 
 Phiora is licensed under the [MIT License](license.txt).
 
----
-
 ## Support / Contact
 
-* **Email:** [pratham@example.com](mailto:pratham@example.com)
+* **Email:** [pratham.vishwakarma125940@gmail.com](mailto:pratham.vishwakarma125940@gmail.com)
 * **GitHub:** [Pratham-Vishwakarma](https://github.com/Pratham-Vishwakarma)
-* **LinkedIn:** [Pratham Vishwakarma](https://www.linkedin.com/in/pratham1826/)
+* **LinkedIn:** [Pratham Vishwakarma](https://www.linkedin.com/in/pratham-vishwakarma/)
+* **X:** [Pratham Vishwakarma](https://www.x.com/pratham1826/)
 
----
-
-✅ This version has:
-
-* Aligned badges at the top for quick recognition
-* Checkmarks in features for readability
-* Placeholder images for demo/screenshots
-* Tables for tech stack for clarity
-* Bold highlights and clean headings
-
----
-
-If you want, I can **also design a visually modern “GitHub README header section” with your logo, tagline, badges, and buttons** like professional projects have—it will look very premium.
-
-Do you want me to do that next?
